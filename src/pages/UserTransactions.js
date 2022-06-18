@@ -7,10 +7,10 @@ import { useSigner, useContract, useAccount } from 'wagmi'
 
 
 export default function UserTransactions() {
-  const { data: currentAccount } = useAccount();
-  const [ userTransactionIDList , setUserTransactionIDList ] = useState(null);
-  const [ parsedTransactionIDList , setParsedTransactionIDList ] = useState(null);
-  const [ userTransactionDataList , setUserTransactinDataList ] = useState([]);
+  const { data: currentAccount } = useAccount()
+  const [ userTransactionIDList , setUserTransactionIDList ] = useState(null)
+  const [ parsedTransactionIDList , setParsedTransactionIDList ] = useState(null)
+  const [ userTransactionDataList , setUserTransactinDataList ] = useState([])
   const [ confirmSwapRes, setConfirmSwapRes ] = useState()
 
   const { data: wallet } = useAccount() 
@@ -61,7 +61,6 @@ export default function UserTransactions() {
     const confirm_res = await contract?.confirmTransaction(id, wantNFT, wantNFTtokenID )
     setConfirmSwapRes(confirm_res)
   }
-
 
   const handleConfirm = e => {
     const transacId = e.target.id

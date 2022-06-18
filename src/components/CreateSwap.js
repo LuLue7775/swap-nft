@@ -16,9 +16,9 @@ export default function CreateSwap({ switchNetReq }) {
   /**
    *  contract wise
    */
-  const [fetchedHaveData, setFetchedHaveData] = useState({ haveTokenId:'101', haveNFTAddress:'0xfeD2cdE438AB93f6CbcceCfD5BE88Fe48a7f664D' });
-  const [fetchedWantData, setFetchedWantData] = useState({ wantTokenId:'28', wantNFTAddress:'0x687D9F7Cdee1f1BA202F0447D81B3B4fba56fe4F', receiver: '0x0F1CD12F75508aa0420dA9cD9798D9cD93627bb3', amount:'' });
-  const [expiredDate, setExpiredDate] = useState('');
+  const [fetchedHaveData, setFetchedHaveData] = useState({ haveTokenId:'101', haveNFTAddress:'0xfeD2cdE438AB93f6CbcceCfD5BE88Fe48a7f664D' })
+  const [fetchedWantData, setFetchedWantData] = useState({ wantTokenId:'28', wantNFTAddress:'0x687D9F7Cdee1f1BA202F0447D81B3B4fba56fe4F', receiver: '0x0F1CD12F75508aa0420dA9cD9798D9cD93627bb3', amount:'' })
+  const [expiredDate, setExpiredDate] = useState('')
 
   const { data: signer } = useSigner()
   const contract = useContract({
