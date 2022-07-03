@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 
 import { useAccount } from 'wagmi';
-import { useMoralisWeb3Api } from "react-moralis";
 import { motion, AnimateSharedLayout } from "framer-motion";
 import { useSwipeable } from "react-swipeable";
 

@@ -16,23 +16,11 @@ import { motion } from 'framer-motion'
  * @TODO click wallet nft load data
  * @TODO load nft
  * @TODO add inputs: margin prices. 
- *        if have one, Take() first before create contract, (do it in one function?)
- * @TODO if just for sale, make _wantToken = 9999999
- *  
+ *        if have one, Take() first before create contract, (do it in one function?) *  
  * @TODO field sanitizing and validation. required field. 
  * @TODO useWaitForTransaction and add loader
  */
-<<<<<<< HEAD
-export default function CreateSwap({ switchNetReq }) {
-  /**
-   *  contract wise
-   */
-  const [fetchedHaveData, setFetchedHaveData] = useState({ haveTokenId:'101', haveNFTAddress:'0xfeD2cdE438AB93f6CbcceCfD5BE88Fe48a7f664D' })
-  const [fetchedWantData, setFetchedWantData] = useState({ wantTokenId:'28', wantNFTAddress:'0x687D9F7Cdee1f1BA202F0447D81B3B4fba56fe4F', receiver: '0x0F1CD12F75508aa0420dA9cD9798D9cD93627bb3', amount:'' })
-  const [expiredDate, setExpiredDate] = useState('')
-=======
 export default function CreateSwap() {
-
 
   const [fetchedHaveData, setFetchedHaveData] = useState({ haveTokenId:'', haveNFTAddress:'' });
   const [fetchedWantData, setFetchedWantData] = useState({ wantTokenId:'', wantNFTAddress:'', receiver: '', amount:'' });
@@ -44,7 +32,6 @@ export default function CreateSwap() {
   const [renderHaveInputForms, setRenderHaveInputForms] = useState(true)
   const [renderWantInputForms, setRenderWantInputForms] = useState(true)
 
->>>>>>> temp-version
 
   const { data: signer } = useSigner()
   const contract = useContract({

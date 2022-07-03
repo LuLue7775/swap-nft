@@ -3,7 +3,6 @@ import WalletContextProvider from './context/WalletContext';
 import { BrowserRouter } from "react-router-dom"
 import Router from './Router';
 import styled from 'styled-components';
-import { useMoralis } from "react-moralis";
 import { useEffect } from 'react';
 
 /**
@@ -14,10 +13,6 @@ import { useEffect } from 'react';
  *  
  */
 function App() {
-  const { authenticate, isAuthenticated, user } = useMoralis();
-  // useEffect(() => {
-  //   authenticate()
-  // }, [])
 
   return (
     // <WalletContextProvider>

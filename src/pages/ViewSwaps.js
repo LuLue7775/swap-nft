@@ -83,6 +83,7 @@ export default function ViewSwaps() {
     }, [contract])
 
     useEffect(() => {
+      
       getAllSwaps().catch( e => console.log(e) )
     }, [swapsCount])
     

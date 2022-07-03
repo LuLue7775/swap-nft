@@ -3,10 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
-/**
- * Moralis imports
- */
- import { MoralisProvider } from "react-moralis";
 
 
 /**
@@ -49,9 +45,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
       <WagmiConfig client={client}>
-        <MoralisProvider serverUrl="https://cdcg8synsq8t.usemoralis.com:2053/server" appId="s4jwyL58zTLhjq1IAtXtyFTZTyI31WrjbesWVCef">
           <App />
-        </MoralisProvider>
       </WagmiConfig>
   </React.StrictMode>
 );
