@@ -13,6 +13,8 @@ import { motion } from 'framer-motion'
 
 
 /**
+ * @TODO Refactor style component with variable (eg:left/right)
+ * 
  * @TODO click wallet nft load data
  * @TODO load nft
  * @TODO add inputs: margin prices. 
@@ -60,13 +62,13 @@ export default function CreateSwap() {
       formatPrice(havePrice) , 
       BigNumber.from(`${formatPrice(wantPrice)}`) ]
     
-      console.log(paramArray)
+      // console.log(paramArray)
     // approve myNFT
     const nft_contract = new ethers.Contract(params.nft_address, erc721ContractABI, signer);
     await nft_contract.approve(contractAddress,  parseInt(params?.token_id) ).catch( e => console.log(e) )
 
     const create_res = await contract?.createTransaction(...paramArray).catch( e => console.log(e) )
-    console.log(create_res)
+    // console.log(create_res)
   }
 
   /**
@@ -111,9 +113,9 @@ export default function CreateSwap() {
     setRenderWantInputForms(false)
   }
 
-  useEffect(() => {
-    console.log(fetchedHaveData)
-  }, [fetchedHaveData])
+  // useEffect(() => {
+  //   console.log(fetchedHaveData)
+  // }, [fetchedHaveData])
 
   return (
     <StyledCreateSwapContainer
@@ -128,9 +130,9 @@ export default function CreateSwap() {
       }}
     >
       <StyledElementsWrap>
-
-          <StyledCardWrap >
-            <StyledSwapCard >
+            <StyledCardWrapLeft>
+            <StyledCardWrapNestedLeft>
+                <StyledCardWrapNestedInnerLeft>
               {renderHaveInputForms && (
                 <>
                   <h3> ADD ASSET </h3>
@@ -160,13 +162,17 @@ export default function CreateSwap() {
               <StyledNFTImg>
                 <img src={haveNFTData?.image_url} alt=""  />
               </StyledNFTImg>
-            </StyledSwapCard>
+              </StyledCardWrapNestedInnerLeft>
+            </StyledCardWrapNestedLeft>
+            </StyledCardWrapLeft>
 
-            <StyledSwapCard> 
+            <StyledCardWrapRight> 
+            <StyledCardWrapNestedRight>
+                <StyledCardWrapNestedInnerRight>
               {
                 renderWantInputForms  && (
                   <>
-                    <p> and you're looking for </p>
+                    <h3> Target NFT </h3>
                     <StyledButton 
                       onClick={ () => handleAssetClicked(
                       <WantNFTContent fetchedWantData={fetchedWantData} setFetchedWantData={setFetchedWantData} handletWantNFT={handletWantNFT} setModalOpened={setModalOpened}/>)}
@@ -186,37 +192,40 @@ export default function CreateSwap() {
               <StyledNFTImg className='nft-img'>
                 <img src={wantNFTData?.image_url} alt=""/>
               </StyledNFTImg>
+              </StyledCardWrapNestedInnerRight>
+            </StyledCardWrapNestedRight>
+            </StyledCardWrapRight>
 
-            </StyledSwapCard>
-          </StyledCardWrap>
-
-          <StyledForm> 
-            <h3> YOUR CONTRACT</h3>
-            <StyledInfo> 
-                <StyledInfoCol>
-                  <p> your NFT: {haveNFTData?.nft_address } # {haveNFTData?.token_id }</p>
-                  <p> {haveNFTData?.schema_name } </p>
-                  <p> name: {haveNFTData?.name } </p>
-                  <p> make-up price: { havePrice } </p>
-                </StyledInfoCol>
-              
-
-                <StyledInfoCol>
-                  <p> trade for NFT: {wantNFTData?.nft_address } # {wantNFTData?.token_id }</p>
-                  <p> {wantNFTData?.schema_name } </p>
-                  <p> name: {wantNFTData?.name } </p>
-                  <p> make-up price: { wantPrice } </p>
-                </StyledInfoCol>
-            </StyledInfo>
-            <StyledSubmits>
-              <div>
-              <StyledLabel> expiration date: </StyledLabel>
-              <StyledInput type="number" onChange={handleExpire} defaultValue={expireIn} />
-              </div>
+          <StyledCardWrapBottom> 
+            <StyledBottomTop>
+              <h3> YOUR CONTRACT</h3>
+            </StyledBottomTop>
+            
+            <StyledBottomLeft>
+              <p> your NFT: {haveNFTData?.nft_address }</p>
+              <p> token ID: # {haveNFTData?.token_id } </p>
+              <p> {haveNFTData?.schema_name } </p>
+              <p> name: {haveNFTData?.name } </p>
+              <p> make-up price: { havePrice } </p>
+            </StyledBottomLeft>
+          
+            <StyledBottomRight>
+              <p> trade for NFT: {wantNFTData?.nft_address }</p>
+              <p> token ID: # {wantNFTData?.token_id } </p>
+              <p> {wantNFTData?.schema_name } </p>
+              <p> name: {wantNFTData?.name } </p>
+              <p> make-up price: { wantPrice } </p>
+            </StyledBottomRight>
+          
+            <StyledBottomBottom>
+              <StyledExpire> expire in 
+                <StyledInput type="number" onChange={handleExpire} defaultValue={expireIn} />
+              </StyledExpire>
               <StyledButton type="submit" onClick={handleSubmit}> create swap </StyledButton>
               <StyledButton onClick={handleReset}> reset swap </StyledButton>
-            </StyledSubmits>
-          </StyledForm>
+            </StyledBottomBottom>
+
+          </StyledCardWrapBottom>
        </StyledElementsWrap>
 
         <ModalAddAsset isModalOpened={isModalOpened} setModalOpened={setModalOpened}> {ModalContent} </ModalAddAsset>
@@ -234,51 +243,40 @@ const StyledCreateSwapContainer = styled(motion.div)`
   left:0;
   height: 100vh;
   width: 100%;
-
-  background: rgb(223,173,155);
-  background: linear-gradient(153deg, rgba(223,173,155,0.9612219887955182) 9%, rgba(166,196,213,1) 34%, rgba(81,78,158,1) 84%, rgba(7,5,43,1) 100%);
+  color: #FFF;
+  background: #000;
 `
 const StyledElementsWrap = styled.div`
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  height: 90vh;
-  width: auto;
-  // margin: 40px;
-  display: flex;
-  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-areas: "left right" 
+                        "bottom bottom";
+  grid-template-columns: 40% 40%;
+  grid-template-rows: clamp(350px, 40%, 500px) clamp(300px, 40%, 400px);
+  gap: 10px;
   justify-content: center;
-  align-items: center;
+  align-content: center;
 
+ 
   
 `
-const StyledCardWrap = styled.div`
-  position: relative;
-  width: auto;
-  height: 30vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const StyledCardWrapLeft = styled.div`
+  grid-area: left;
+  border: 1px solid var(--main-border-color);
+  border-radius: 20px;
+  width: 100%;
+
+`
+const StyledCardWrapRight = styled.div`
+  grid-area: right;
+  border: 1px solid var(--main-border-color);
+  border-radius: 20px;
 `
 
-const StyledSwapCard = styled.div`
-  width: 400px;
-  height: 400px;
-  margin: 40px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
-  gap: 5px;
-  border-radius: 5px;
-  border-color: transparent;
-  // background: #FFF;
-`
 const StyledSwapCardTexts = styled.div`
-  font-size: 1.5rem;
-  font-family: "VT323";
+  font-size: 1.2rem;
+  font-family: 'Gothic A1', sans-serif;
   
   div { 
     display: flex;
@@ -291,21 +289,51 @@ const StyledSwapCardTexts = styled.div`
   }
 
 `
-const StyledForm = styled.div`
-  position: relative;
+const StyledCardWrapBottom = styled.div`
+  grid-area: bottom;
+  border: 1px solid var(--main-border-color);
+  border-radius: 20px;
 
-  width: 90vw;
-  height: 40vh;
-  // margin: 40px;
-  padding: 40px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  
+  display: grid;
+  grid-template-areas: "b-top b-top" 
+                        "b-left b-right"
+                        "b-bottom b-bottom";
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 15% 70% 15%;
+
+  font-size: 1.2rem;
+  font-family: 'Gothic A1', sans-serif;
+  font-weight: 300;
+
+`
+const StyledBottomTop = styled.div`
+  grid-area: b-top;
+  border-bottom:  1px solid var(--main-border-color);
+  display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
-  border-color: transparent;
-  background: #FFFFFF50;
 `
+const StyledBottomLeft = styled.div`
+  grid-area: b-left;
+  border-right:  1px solid var(--main-border-color);
+`
+const StyledBottomRight = styled.div`
+  grid-area: b-right;
+`
+const StyledBottomBottom = styled.div`
+  grid-area: b-bottom;
+  border-top:  1px solid var(--main-border-color);
+  padding: 0 10% 0 10% ;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  
+`
+
 
 
 const StyledButton = styled.button`
@@ -323,8 +351,7 @@ const StyledButton = styled.button`
   box-shadow: 0px 2px 2px 1px #0F0F0F;
   cursor: pointer;
 
-  font-family: "VT323";
-  font-size: 1.2rem;
+
 
   &:hover {
     background-color: #12f7ff;
@@ -333,37 +360,58 @@ const StyledButton = styled.button`
 
 const StyledNFTImg = styled.div`
   // position: absolute;
-  width: 400px;
-  height: 400px;
-  z-index:-1;
-  overflow: hidden;
-  display: flex;
-
-
+  // width: 400px;
+  // height: 400px;
+  // z-index:-1;
+  // overflow: hidden;
+  // display: flex;
 `
-const StyledInfo= styled.div`
-  display: inline-grid;
-  grid-template-columns: 400px 400px;
-  height:90%;
-  gap: 100px;
-  
-  font-size: 1.5rem;
-  font-family: "VT323";
-`
-const StyledSubmits= styled.div`
-  display: flex;
-  height:10%;
-  gap: 100px;
 
-`
-const StyledLabel= styled.label`
-  width: 200px;
-  font-size: 1.5rem;
-  font-family: "VT323";
+const StyledExpire= styled.div`
+  white-space: nowrap;
+
 `
 const StyledInput= styled.input`
-  width: 200px;
+  max-width: 70px;
 `
-const StyledInfoCol= styled.div`
-  max-width: 400px;
+
+const StyledCardWrapNestedLeft = styled.div`
+    border: 1px solid var(--main-border-color);
+    border-radius: 20px;
+    width: calc( 100% - 10px );
+    height: calc(100% - 10px);
+`
+const StyledCardWrapNestedInnerLeft = styled.div`
+    border: 1px solid var(--main-border-color);
+    border-radius: 20px;
+    width: calc( 100% - 10px );
+    height: calc(100% - 10px);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    padding: 1rem;
+`
+
+const StyledCardWrapNestedRight = styled.div`
+    border: 1px solid var(--main-border-color);
+    border-radius: 20px;
+    width: calc( 100% - 10px );
+    height: calc( 100% - 10px);
+    display: flex;
+    align-items: end;
+    
+`
+const StyledCardWrapNestedInnerRight = styled.div`
+    border: 1px solid var(--main-border-color);
+    border-radius: 20px;
+    width: calc( 100% - 10px );
+    height: calc( 100% - 10px );
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    padding: 1rem;
 `

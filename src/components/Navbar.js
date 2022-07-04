@@ -53,11 +53,10 @@ export default function Navbar({ switchNetReq, setSwitchNet }) {
         }
       </StyledButtonsWrap>
       
-      {  location.pathname !== '/' &&
         <StyledButtonWrap>
           <SwitchPageButton setMenuOpened={setMenuOpened} isMenuOpened={isMenuOpened}> menu </SwitchPageButton>
         </StyledButtonWrap>
-      }
+
       
     </StyledNav>
   )
@@ -71,7 +70,7 @@ const StyledButtonWrap = styled.div`
   border: 1px solid #FFF;
   border-radius: 40px;
   background-color: #FFFFFFA0;
-
+  
   &:hover {
     background-color: #12f7ff;
     transform: scale(1.1);
@@ -91,12 +90,14 @@ const StyledNav = styled.div`
   width: 100%;
   font-family: inherit;
   background: transparent;
-
+  color: #FFF;
   z-index:100;
 `
-const StyledTitle = styled.h1`
-  // display: none;
+const StyledTitle = styled.div`
   text-decoration: none;
+  font-family: "Press Start 2P";
+  font-size: 2rem;
+  padding: 10px;
 `
 const StyledButtonsWrap = styled.div`
   display: flex;

@@ -47,8 +47,7 @@ const StyledInputSec = styled.form`
   border-radius: 5px;
   border-color: transparent;
   color: #FFF;
-  font-size: 1.4rem;
-  font-family: VT323;
+
 `
 
 const StyledButton = styled.button`
@@ -66,8 +65,6 @@ const StyledButton = styled.button`
   box-shadow: 0px 2px 2px 1px #0F0F0F;
   cursor: pointer;
 
-  font-family: "VT323";
-  font-size: 1.2rem;
 
   &:hover {
     background-color: #000;

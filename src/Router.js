@@ -20,9 +20,6 @@ export default function Router() {
           <Route path="/" element={<Homepage switchNetReq={switchNetReq} />} />
           <Route path="/viewswaps" element={<ViewSwaps switchNetReq={switchNetReq} />} />
           <Route path="/create-contract" element={<CreateSwap switchNetReq={switchNetReq} />} />
-
-          {/* <Route path="/view-wallet-asset" element={<UserAssets switchNetReq={switchNetReq} />} />
-          <Route path="/view-wallet-transaction" element={<UserTransactions switchNetReq={switchNetReq} />} /> */}
         </Routes>
       </AnimatePresence>
 

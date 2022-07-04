@@ -18,8 +18,6 @@ import { motion } from 'framer-motion'
 
  * @TODO convert all bigNumber before setAllSwaps
  * @TODO useError (optional)
- * @TODO error429 and throttle (pls ask)
- * @TODO fix fake expire date.
  * @TODO fix allSwapsImg, use str index for imgUrl.
  */
 
@@ -200,25 +198,39 @@ export default function ViewSwaps() {
         }}
       > 
 
-        <StyledSearch className='header'>
-          <h3> All swaps records </h3>
-          <input type="text" id="search-bar" placeholder="Search for NFT address here.." onChange={handleWalletFilter}/>
-          <p> found {filteredAllSwaps?.length} results... </p>
-          <div> or </div>
-          <label > by filter:</label>
-          <select name="filter" onChange={handleFilter}>
-            <option value="expiredDate"> expired date </option>
-            <option value="status"> status </option>
-          </select>
-        </StyledSearch>
+        <StyledSearchContainer className='header'>
+          <h1> All Swaps Contracts </h1>
+          <StyledSearchOuter>
+            <StyledSearch> 
+              <StyledSearchLeft>
+                <input type="text" id="search-bar" placeholder="Search for NFT address here.." onChange={handleWalletFilter}/>
+                <p> found {filteredAllSwaps?.length} results... </p>
+              </StyledSearchLeft>
+              <StyledSearchRight>
+                <select name="filter" onChange={handleFilter}>
+                  <option value="expiredDate"> expired date </option>
+                  <option value="status"> status </option>
+                </select>
+              </StyledSearchRight>
+            </StyledSearch>
+          </StyledSearchOuter>
+
+          <StyledSearchInstruct>
+           <div> instructions </div>
+            <ul>
+              <li> Please login to your Metamask onto rinkeby network. </li>
+              <li> Approve the spending for the Swapping assets (if you haven't already). </li>
+              <li> Click confirm Swap. </li>
+              <li> If a contract requires ETH for make-up price, we’ll deduct according price from your wallet.  </li>
+            </ul>
+          </StyledSearchInstruct>
+        </StyledSearchContainer>
         
         <StyledContent>
             { filteredAllSwaps?.length ? 
             filteredAllSwaps.map( (swap, i) => 
               <StyledCardWrap key={i}>
                 <StyledUpperContent>
-                <div> transcId: {swap.transactionId.toNumber()} </div>
-                  <StyledCol>
                       <StyledCards key={i} image_url={swap[0]}> 
                           <StyledCardTop>
                               <StyledCardItems> {swap.myNFT}</StyledCardItems>
@@ -228,10 +240,7 @@ export default function ViewSwaps() {
                           
                           <StyledCardItems>Initiator: {swap.requestor} </StyledCardItems>
                       </StyledCards>
-                  </StyledCol>
 
-                  <StyledCol>
-                    <StyledCol>
                       <StyledCards key={i} image_url={swap[1]}> 
                           <StyledCardTop>
                               <StyledCardItems> {swap.wantNFT}</StyledCardItems>
@@ -241,25 +250,27 @@ export default function ViewSwaps() {
                           
                           <StyledCardItems>Receiver: {swap.receiver} </StyledCardItems>
                       </StyledCards>
-                  </StyledCol>
 
-                  </StyledCol>
                 </StyledUpperContent>
 
                 <StyledCorner> 
-                  <div>expire in { parseExpire(swap.dueDate.toNumber()) } days</div>
-                  status: {parseStatus(swap.state.toNumber()) } 
-                  { swap.state.toNumber() === 0 && 
-                    <StyledButton onClick={ handleApprove } id={i}> 
-                      { isApprovedLoading ? 'processing...': approvedData ? 'succeeded!' : 'approve'} 
-                    </StyledButton> }
-                  { swap.state.toNumber() === 0 && 
-                    <StyledButton onClick={ handleConfirm } id={i}> 
-                      { isConfirmedLoading ? 'processing...': ConfirmedData ? 'succeeded!' : 'confirm'}
-                    </StyledButton> }
+                  <div> transction ID: {swap.transactionId.toNumber()} </div>
+                    <div>expire in { parseExpire(swap.dueDate.toNumber()) } days</div>
+                    status: {parseStatus(swap.state.toNumber()) } 
+
+                    <div>
+                      { swap.state.toNumber() === 0 && 
+                        <StyledButton onClick={ handleApprove } id={i}> 
+                          { isApprovedLoading ? 'processing...': approvedData ? 'succeeded!' : 'approve'} 
+                        </StyledButton> }
+                    </div>
+
+                    { swap.state.toNumber() === 0 && 
+                      <StyledButton onClick={ handleConfirm } id={i}> 
+                        { isConfirmedLoading ? 'processing...': ConfirmedData ? 'succeeded!' : 'confirm'}
+                      </StyledButton> }
                 
                 </StyledCorner>
-                {/* <StyledCorner> expiredDate: {swap[9].toNumber()} </StyledCorner> */}
               </StyledCardWrap> 
             ) : 'loading' }
         </StyledContent>
@@ -281,17 +292,62 @@ const StyledAllswapsContainer = styled(motion.div)`
   justify-content: start;
   align-items: center;
   
-  background: rgb(223,173,155);
-  background: linear-gradient(153deg, rgba(223,173,155,0.9612219887955182) 9%, rgba(166,196,213,1) 34%, rgba(81,78,158,1) 84%, rgba(7,5,43,1) 100%);
+  color: #FFF;
+  background: #000;
+`
+const StyledSearchContainer = styled.div`
+  position: relative;
+  width: clamp(500px, 70%, 800px);
+  display: grid;
+  grid-template-rows: 1fr 150px 1fr;
+
+  h1 {
+    font-size: 4rem;
+  }
+`
+
+
+const StyledSearchOuter = styled.div`
+  height: 100%;
+  padding: 5px;
+  border-top: 1px solid var(--main-border-color);
+  border-bottom: 1px solid var(--main-border-color);
+
 `
 const StyledSearch = styled.div`
-  position: relative;
-  width: 400px;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  padding-top: 3%;
+  background: #000;
+  border-top: 3px solid var(--main-border-color);
+  border-bottom: 3px solid var(--main-border-color);
 `
+const StyledSearchLeft = styled.div`
+  width: clamp(100px, 80%, 300px);
+
+  font-family: 'Gothic A1', sans-serif;
+  font-size: 1rem;
+`
+const StyledSearchRight = styled.div`
+  width: clamp(100px, 80%, 300px);
+`
+const StyledSearchInstruct = styled.div`
+  margin: 20px;  
+  padding: 1rem;
+  border: 1px solid var(--main-border-color);
+  border-radius: 20px;
+  
+  text-align: start;
+  font-family: 'Gothic A1', sans-serif;
+  font-size: 1rem;
+
+`
+
 const StyledContent = styled.div`
   position: relative;
-  // height: 400vh
-  padding-top: 120px;
+  padding-top: 50px;
   padding-bottom: 200px;
 `
 // =================
@@ -300,12 +356,12 @@ const StyledCardWrap = styled.div`
   height: auto;
   padding: 20px;
   margin: 20px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 70% 30%;
   justify-content: center;
   align-items: center;
 
-  background: #dedbc850;
+  border: 1px solid var(--main-border-color);
   border-radius: 20px;
 
   font-family: VT323;
@@ -317,31 +373,23 @@ const StyledUpperContent = styled.div`
   justify-content: space-between;
 `
 
-const StyledCol = styled.div`
-  width:500px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
-`
 const StyledCards = styled.div`
 // min-width: 500px;
 // min-height: 500px;
-  width: 400px;
-  height: 400px;
+  width: clamp(300px, 30vw, 400px);
+  height: clamp(300px, 30vw, 400px);
   padding: 30px;
   margin: 20px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: start;
-
+  align-items: center;
+  color: #000;
   background: #ebff12;
   border-radius: 20px;
 
-  font-family: VT323;
-  font-size: 1.2rem;
   background-image: ${({image_url}) => `url( ${image_url} )`} ;
   background-size: 400px 400px;
 
@@ -366,11 +414,12 @@ const StyledCardItems = styled.div`
   background: #FFFFFF80;
 `
 const StyledCorner = styled.div`
-  width:100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: end;
+  font-family: 'Gothic A1', sans-serif;
+
 `
 
 const StyledButton = styled.button`
@@ -388,8 +437,6 @@ const StyledButton = styled.button`
   box-shadow: 0px 2px 2px 1px #0F0F0F;
   cursor: pointer;
 
-  font-family: "VT323";
-  font-size: 1.2rem;
 
   &:hover {
     background-color: #12f7ff;

@@ -6,8 +6,9 @@ export default function SwitchPageButton() {
   const location = useLocation();
   return (
     <StyledIconBtn >
+        
         {
-          location.pathname === '/viewswaps' ?
+          location.pathname !== '/create-contract' ?
           
           <Link to="create-contract">  
             <StyledIcon viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet" focusable="false" className="menu-icon">
@@ -15,7 +16,7 @@ export default function SwitchPageButton() {
             </StyledIcon>
           </Link>
 
-          : location.pathname === '/create-contract' &&
+          :
            
           <Link to="viewswaps">  
             <StyledIcon viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet" focusable="false" className="menu-icon">

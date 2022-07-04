@@ -6,15 +6,18 @@ export default function Homepage() {
 
     return (
       <StyledCreateSwap className='create-swap' >
-          <StyledElementsWrap >
-                <StyledTexts> all your swaps belong to us </StyledTexts>
-                <StyledTexts> make it as EASY as you can ever imagine </StyledTexts>
-                <StyledTexts className='underline'> with zero swap fees! </StyledTexts>
-        
-            <Link to="create-contract" >  
-              <StyledButton > SWAP IT NOW </StyledButton>
-            </Link>                    
-          </StyledElementsWrap>
+          <StyledElementsTop >
+            <StyledTextsOuter>
+                <StyledTexts> Meet your blocks at our block. </StyledTexts>
+            </StyledTextsOuter>
+                
+          </StyledElementsTop>
+
+          <StyledElementsBottom>
+            <StyledCard></StyledCard>
+            <StyledCard></StyledCard>
+            <StyledCard></StyledCard>
+          </StyledElementsBottom>
       </StyledCreateSwap>
 
       
@@ -25,35 +28,58 @@ const StyledCreateSwap = styled.div`
   position: absolute;
   top:0;
   left:0;
-  height: 100vh;
+  height: 200vh;
   width: 100%;
   z-index: -1;
-  display: flex;
-  justify-content: start;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
 
-  // padding: 15px;
-  font-family: inherit;
-
-  background: rgb(223,173,155);
-  background: linear-gradient(153deg, rgba(223,173,155,0.9612219887955182) 9%, rgba(166,196,213,1) 34%, rgba(81,78,158,1) 84%, rgba(7,5,43,1) 100%);
+  color: #FFF;
+  background: #000;
 
 `
-const StyledElementsWrap = styled.div`
-  width: auto;
-  margin: 40px;
+const StyledElementsTop = styled.div`
+  width: 100%;
+  height: 100vh;
+
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   
 `
-const StyledTexts = styled.div`
-  margin: 10px;
-  font-family: "VT323";
-  font-size: 2.4rem;
+
+const StyledElementsBottom = styled.div`
+  width: auto;
+  height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+
+`
+const StyledCard = styled.div`
+  width: 80%;
+  height: 50%;
+
+  border: 1px solid var(--home-border-color);
+  border-radius: 20px;
+  background: #FFFFFF50;
 `
 
+const StyledTexts = styled.div`
+  margin: 5px;
+  font-size: 1.2rem;
+  padding: 3rem;
+  border: 1px solid var(--home-border-color);
+  border-radius: 20px;
+  background: #000;
+`
+const StyledTextsOuter = styled.div`
+  border: 1px solid var(--home-border-color);
+  border-radius: 20px;
+`
 
 const StyledButton = styled.button`
   display: inline-flex;
