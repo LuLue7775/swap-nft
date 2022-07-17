@@ -42,9 +42,9 @@ export default function Navbar({ switchNetReq, setSwitchNet }) {
 
   return (
     <StyledNav className='nav'>
-      <StyledTitle> 
-        <Link to="/"> SWAP NFT </Link>
-      </StyledTitle>
+      <Link to="/">
+        <StyledTitle>  SWAP NFT </StyledTitle>
+      </Link>
 
       <StyledButtonsWrap>
         { currentAccount 
@@ -96,8 +96,10 @@ const StyledNav = styled.div`
 const StyledTitle = styled.div`
   text-decoration: none;
   font-family: "Press Start 2P";
-  font-size: 2rem;
+  font-size: 1.6rem;
   padding: 10px;
+  color: #ff6640;
+
 `
 const StyledButtonsWrap = styled.div`
   display: flex;
@@ -116,11 +118,11 @@ const StyledWallet = styled.div`
   max-width: 150px;
   padding: 15px;
   font-size: .9rem;
+  font-family: 'Press Start 2P', serif;
 
   p {
     overflow: hidden;
     text-overflow: ellipsis;
-
   }
     
 `

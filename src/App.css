@@ -5,6 +5,8 @@
 .App {
   text-align: center;
   font-family: "Press Start 2P", "VT323", "Gothic A1", "DM Serif Text";
+}
+html {
   font-size: 16px;
 }
 
@@ -30,8 +32,14 @@ h1, h2, h3 {
   font-family: 'DM Serif Text', serif;
 }
 
+div {
+  font-size: .9rem;
+  font-family: 'Gothic A1', sans-serif;
+
+}
+
 button {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: 'Gothic A1', sans-serif;
   font-weight: 300;
 }
@@ -63,7 +71,7 @@ ul {
 
 input, select {
   width: 100%;
-  padding: 12px 20px;
+  padding: 2px 6px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
@@ -75,8 +83,8 @@ input {
   width: 100%;
   background-color: #FFFFFFC0;
   color: #000;
-  padding: 14px 20px;
-  margin: 8px 0;
+  padding: 2px 6px;
+  margin: 8px 4px;
   border: 1px solid #00000050;
   border-radius: 4px;
   cursor: pointer;
@@ -94,11 +102,6 @@ input:hover {
   background: #fff;
   border: 2px #ddd solid;
   margin-right: 4px;
-}
-
-.checkbox--active {
-  border-color: purple;
-  background: purple;
 }
 
 a {

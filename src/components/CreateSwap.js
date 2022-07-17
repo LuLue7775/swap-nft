@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 import ModalAddAsset from './ModalAddAsset';
-import HaveNFTContent from './HaveNFTContent';
-import WantNFTContent from './WantNFTContent';
+import WantNFTContent from './CreateSwapAddAssetTab/WantNFTContent';
+import LeftCard from './CreateSwapCards/LeftCard';
 import styled from 'styled-components';
 
 import { ethers, BigNumber } from 'ethers';
 import { contractABI, contractAddress, erc721ContractABI } from '../configs/contract';
 import { useSigner, useContract, useContractWrite } from 'wagmi'
-import UserAssets from '../pages/UserAssets';
 
 import { motion } from 'framer-motion'
+import RightCard from './CreateSwapCards/RightCard';
+import BottomCard from './CreateSwapCards/BottomCard';
 
 
 /**
@@ -24,16 +25,15 @@ import { motion } from 'framer-motion'
  */
 export default function CreateSwap() {
 
-  const [fetchedHaveData, setFetchedHaveData] = useState({ haveTokenId:'', haveNFTAddress:'' });
-  const [fetchedWantData, setFetchedWantData] = useState({ wantTokenId:'', wantNFTAddress:'', receiver: '', amount:'' });
-  const [expireIn, setExpireIn] = useState(7);
-  const [havePrice, setHavePrice] = useState(0);
-  const [wantPrice, setWantPrice] = useState(0);
+  const [ fetchedHaveData, setFetchedHaveData] = useState({ haveTokenId:'', haveNFTAddress:'' });
+  const [ fetchedWantData, setFetchedWantData] = useState({ wantTokenId:'', wantNFTAddress:'', receiver: '', amount:'' });
+  const [ expireIn, setExpireIn] = useState(7);
+  const [ havePrice, setHavePrice] = useState(0);
+  const [ wantPrice, setWantPrice] = useState(0);
   const [ haveNFTData, setHaveNFTdata] = useState()
   const [ wantNFTData, setWantNFTdata] = useState()
-  const [renderHaveInputForms, setRenderHaveInputForms] = useState(true)
-  const [renderWantInputForms, setRenderWantInputForms] = useState(true)
-
+  const [ renderHaveInputForms, setRenderHaveInputForms] = useState(true)
+  const [ renderWantInputForms, setRenderWantInputForms] = useState(true)
 
   const { data: signer } = useSigner()
   const contract = useContract({
@@ -42,8 +42,6 @@ export default function CreateSwap() {
     signerOrProvider: signer
   })
   
-
-
   const calculateExpiredDate = (days) => {
     return days*24*60*60 + Math.floor(Date.now() / 1000)
   }
@@ -74,8 +72,10 @@ export default function CreateSwap() {
   /**
    *  app states wise
    */
+  
   const [isModalOpened, setModalOpened] = useState(false);
   const [ModalContent, setModalContent] = useState(null); 
+  const [isNotifier, setNotifier] = useState(true);
 
   const handleAssetClicked = (whichClicked) => {
     setModalOpened(true);
@@ -130,113 +130,80 @@ export default function CreateSwap() {
       }}
     >
       <StyledElementsWrap>
-            <StyledCardWrapLeft>
-            <StyledCardWrapNestedLeft>
-                <StyledCardWrapNestedInnerLeft>
-              {renderHaveInputForms && (
-                <>
-                  <h3> ADD ASSET </h3>
-                  <StyledButton 
-                    onClick={ () => handleAssetClicked(
-                      <HaveNFTContent fetchedHaveData={fetchedHaveData} setFetchedHaveData={setFetchedHaveData} handletHaveNFT={handletHaveNFT} setModalOpened={setModalOpened}/>) }
-                  > 
-                    by address
-                  </StyledButton>
-                  <StyledButton 
-                    onClick={ () => handleAssetClicked(
-                      <UserAssets fetchedHaveData={fetchedHaveData} setFetchedHaveData={setFetchedHaveData} handletHaveNFT={handletHaveNFT} setModalOpened={setModalOpened}/>) }
-                  > 
-                    by searching in wallet
-                  </StyledButton>
-                  
-                  <StyledSwapCardTexts>
-                    leave a make-up price if needed: 
-                    <div> 
-                      <input type="number" defaultValue="0" onChange={e => setHavePrice(e.target.value)}/>  
-                      <p> eth </p>
-                    </div>
-                  </StyledSwapCardTexts>
-                </>
-              )}
+            <LeftCard
+              renderHaveInputForms={renderHaveInputForms} 
+              handleAssetClicked={handleAssetClicked} 
+              fetchedHaveData={fetchedHaveData}
+              setFetchedHaveData={setFetchedHaveData}
+              handletHaveNFT={handletHaveNFT}
+              setModalOpened={setModalOpened}
+              setHavePrice={setHavePrice}
+              haveNFTData={haveNFTData}
+            />
 
-              <StyledNFTImg>
-                <img src={haveNFTData?.image_url} alt=""  />
-              </StyledNFTImg>
-              </StyledCardWrapNestedInnerLeft>
-            </StyledCardWrapNestedLeft>
-            </StyledCardWrapLeft>
-
-            <StyledCardWrapRight> 
-            <StyledCardWrapNestedRight>
-                <StyledCardWrapNestedInnerRight>
-              {
-                renderWantInputForms  && (
-                  <>
-                    <h3> Target NFT </h3>
-                    <StyledButton 
-                      onClick={ () => handleAssetClicked(
-                      <WantNFTContent fetchedWantData={fetchedWantData} setFetchedWantData={setFetchedWantData} handletWantNFT={handletWantNFT} setModalOpened={setModalOpened}/>)}
-                    > 
-                      by address
-                    </StyledButton>
-                    <StyledSwapCardTexts>
-                      leave a make-up price if you'd like to: 
-                      <div> 
-                        <input type="number" defaultValue="0"  onChange={e => setWantPrice(e.target.value)}/>  
-                        <p> eth </p>
-                      </div>
-                    </StyledSwapCardTexts>
-                  </>
-                )
-              }
-              <StyledNFTImg className='nft-img'>
-                <img src={wantNFTData?.image_url} alt=""/>
-              </StyledNFTImg>
-              </StyledCardWrapNestedInnerRight>
-            </StyledCardWrapNestedRight>
-            </StyledCardWrapRight>
-
-          <StyledCardWrapBottom> 
-            <StyledBottomTop>
-              <h3> YOUR CONTRACT</h3>
-            </StyledBottomTop>
+            <RightCard
+              renderWantInputForms={renderWantInputForms} 
+              handleAssetClicked={handleAssetClicked} 
+              fetchedWantData={fetchedWantData}
+              setFetchedWantData={setFetchedWantData}
+              handletWantNFT={handletWantNFT}
+              setModalOpened={setModalOpened}
+              setWantPrice={setWantPrice}
+              wantNFTData={wantNFTData}
+            />
             
-            <StyledBottomLeft>
-              <p> your NFT: {haveNFTData?.nft_address }</p>
-              <p> token ID: # {haveNFTData?.token_id } </p>
-              <p> {haveNFTData?.schema_name } </p>
-              <p> name: {haveNFTData?.name } </p>
-              <p> make-up price: { havePrice } </p>
-            </StyledBottomLeft>
-          
-            <StyledBottomRight>
-              <p> trade for NFT: {wantNFTData?.nft_address }</p>
-              <p> token ID: # {wantNFTData?.token_id } </p>
-              <p> {wantNFTData?.schema_name } </p>
-              <p> name: {wantNFTData?.name } </p>
-              <p> make-up price: { wantPrice } </p>
-            </StyledBottomRight>
-          
-            <StyledBottomBottom>
-              <StyledExpire> expire in 
-                <StyledInput type="number" onChange={handleExpire} defaultValue={expireIn} />
-              </StyledExpire>
-              <StyledButton type="submit" onClick={handleSubmit}> create swap </StyledButton>
-              <StyledButton onClick={handleReset}> reset swap </StyledButton>
-            </StyledBottomBottom>
+            <BottomCard
+                haveNFTData={haveNFTData}
+                havePrice={havePrice}
+                wantNFTData={wantNFTData}
+                wantPrice={wantPrice}
+                handleExpire={handleExpire}
+                expireIn={expireIn}
+                handleSubmit={handleSubmit}
+                handleReset={handleReset}
+            />
 
-          </StyledCardWrapBottom>
        </StyledElementsWrap>
 
         <ModalAddAsset isModalOpened={isModalOpened} setModalOpened={setModalOpened}> {ModalContent} </ModalAddAsset>
+
+        <StyledNotifier isNotifier={isNotifier}> 
+          <StyledModalBtn onClick={() => setNotifier(false) }> X </StyledModalBtn>
+          <div>NOTE: This service is still on alpha version. Currently only works on Rinkeby.  </div>
+        </StyledNotifier>
       </StyledCreateSwapContainer>
   )
 }
 
+const StyledNotifier = styled.div`
+  position: absolute;
+  bottom:0;
+  left:50%;
+  transform: translateX(-50%);
+  height: 50px;
+  width: 60%;
+  color: #000;
+  background: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: ${({ isNotifier }) => isNotifier ? '' : 'hidden'}
+`
+const StyledModalBtn = styled.button`
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: #FFF;
+    z-index: 99;
 
+    &:hover {
+        background-color: #12f7ff;
+      }
+`
 
-
-// ==========================================
 const StyledCreateSwapContainer = styled(motion.div)`
   position: absolute;
   top:0;
@@ -247,171 +214,19 @@ const StyledCreateSwapContainer = styled(motion.div)`
   background: #000;
 `
 const StyledElementsWrap = styled.div`
+  position: relative;
   height: 100vh;
   width: 100%;
   display: grid;
   grid-template-areas: "left right" 
                         "bottom bottom";
   grid-template-columns: 40% 40%;
-  grid-template-rows: clamp(350px, 40%, 500px) clamp(300px, 40%, 400px);
+  grid-template-rows: 350px max(40%, 210px);
+  padding: 80px 0;
   gap: 10px;
   justify-content: center;
   align-content: center;
-
- 
-  
-`
-const StyledCardWrapLeft = styled.div`
-  grid-area: left;
-  border: 1px solid var(--main-border-color);
-  border-radius: 20px;
-  width: 100%;
-
-`
-const StyledCardWrapRight = styled.div`
-  grid-area: right;
-  border: 1px solid var(--main-border-color);
-  border-radius: 20px;
-`
-
-const StyledSwapCardTexts = styled.div`
-  font-size: 1.2rem;
-  font-family: 'Gothic A1', sans-serif;
-  
-  div { 
-    display: flex;
-    align-items: end;
-    gap: 20px;
-  }
-
-  input {
-    width: 150px;
-  }
-
-`
-const StyledCardWrapBottom = styled.div`
-  grid-area: bottom;
-  border: 1px solid var(--main-border-color);
-  border-radius: 20px;
-
-  width: 100%;
-  display: flex;
-  
-  display: grid;
-  grid-template-areas: "b-top b-top" 
-                        "b-left b-right"
-                        "b-bottom b-bottom";
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 15% 70% 15%;
-
-  font-size: 1.2rem;
-  font-family: 'Gothic A1', sans-serif;
-  font-weight: 300;
-
-`
-const StyledBottomTop = styled.div`
-  grid-area: b-top;
-  border-bottom:  1px solid var(--main-border-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-const StyledBottomLeft = styled.div`
-  grid-area: b-left;
-  border-right:  1px solid var(--main-border-color);
-`
-const StyledBottomRight = styled.div`
-  grid-area: b-right;
-`
-const StyledBottomBottom = styled.div`
-  grid-area: b-bottom;
-  border-top:  1px solid var(--main-border-color);
-  padding: 0 10% 0 10% ;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  gap: 10px;
-  
+  overflow: hidden;
 `
 
 
-
-const StyledButton = styled.button`
-  display: inline-flex;
-  justify-content: center; 
-  align-items: center; 
-  padding: 15px;
-  margin: 10px;
-
-  height: auto;
-  max-height: 35px;
-  background-color: #ebff12;
-  border-radius: 5px;
-  border-color: orange;
-  box-shadow: 0px 2px 2px 1px #0F0F0F;
-  cursor: pointer;
-
-
-
-  &:hover {
-    background-color: #12f7ff;
-  }
-`
-
-const StyledNFTImg = styled.div`
-  // position: absolute;
-  // width: 400px;
-  // height: 400px;
-  // z-index:-1;
-  // overflow: hidden;
-  // display: flex;
-`
-
-const StyledExpire= styled.div`
-  white-space: nowrap;
-
-`
-const StyledInput= styled.input`
-  max-width: 70px;
-`
-
-const StyledCardWrapNestedLeft = styled.div`
-    border: 1px solid var(--main-border-color);
-    border-radius: 20px;
-    width: calc( 100% - 10px );
-    height: calc(100% - 10px);
-`
-const StyledCardWrapNestedInnerLeft = styled.div`
-    border: 1px solid var(--main-border-color);
-    border-radius: 20px;
-    width: calc( 100% - 10px );
-    height: calc(100% - 10px);
-
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    padding: 1rem;
-`
-
-const StyledCardWrapNestedRight = styled.div`
-    border: 1px solid var(--main-border-color);
-    border-radius: 20px;
-    width: calc( 100% - 10px );
-    height: calc( 100% - 10px);
-    display: flex;
-    align-items: end;
-    
-`
-const StyledCardWrapNestedInnerRight = styled.div`
-    border: 1px solid var(--main-border-color);
-    border-radius: 20px;
-    width: calc( 100% - 10px );
-    height: calc( 100% - 10px );
-
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    padding: 1rem;
-`

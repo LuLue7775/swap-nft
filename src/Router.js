@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { Routes, Route, useLocation } from "react-router-dom"
 import Homepage from "./pages/Homepage"
 import ViewSwaps from "./pages/ViewSwaps"
-import UserTransactions from "./pages/UserTransactions"
-import UserAssets from "./pages/UserAssets"
 import Navbar from "./components/Navbar"
 import CreateSwap from './components/CreateSwap'
 import { AnimatePresence } from 'framer-motion'

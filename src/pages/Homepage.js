@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Link } from "react-router-dom";
-import styled from 'styled-components';
-
+import BG from '../background/neon.gif'
+import styled from 'styled-components'
 export default function Homepage() {
 
     return (
-      <StyledCreateSwap className='create-swap' >
+      <StyledHome className='home' BG={BG}>
+            <StyledBG src={BG} width="100%" height="100%" alt=""/>
+
           <StyledElementsTop >
             <StyledTextsOuter>
                 <StyledTexts> Meet your blocks at our block. </StyledTexts>
@@ -13,22 +14,31 @@ export default function Homepage() {
                 
           </StyledElementsTop>
 
-          <StyledElementsBottom>
+          {/* <StyledElementsBottom>
             <StyledCard></StyledCard>
             <StyledCard></StyledCard>
             <StyledCard></StyledCard>
-          </StyledElementsBottom>
-      </StyledCreateSwap>
+          </StyledElementsBottom> */}
+      </StyledHome>
 
       
   )
 }
 
-const StyledCreateSwap = styled.div`
+const StyledBG = styled.img`
+  position: fixed;
+  top:0;
+  left:0;
+  height: 100vh;
+  width: 100%;
+  z-index: -1;
+  `
+
+const StyledHome = styled.div`
   position: absolute;
   top:0;
   left:0;
-  height: 200vh;
+  height: 100vh;
   width: 100%;
   z-index: -1;
   display: grid;
@@ -36,6 +46,7 @@ const StyledCreateSwap = styled.div`
 
   color: #FFF;
   background: #000;
+
 
 `
 const StyledElementsTop = styled.div`
@@ -75,6 +86,8 @@ const StyledTexts = styled.div`
   border: 1px solid var(--home-border-color);
   border-radius: 20px;
   background: #000;
+  font-family: 'Press Start 2P', serif;
+
 `
 const StyledTextsOuter = styled.div`
   border: 1px solid var(--home-border-color);
