@@ -53,10 +53,9 @@ export default function Navbar({ switchNetReq, setSwitchNet }) {
         }
       </StyledButtonsWrap>
       
-        <StyledButtonWrap>
-          <SwitchPageButton setMenuOpened={setMenuOpened} isMenuOpened={isMenuOpened}> menu </SwitchPageButton>
-        </StyledButtonWrap>
-
+      <StyledButtonWrap>
+        <SwitchPageButton setMenuOpened={setMenuOpened} isMenuOpened={isMenuOpened}> menu </SwitchPageButton>
+      </StyledButtonWrap>
       
     </StyledNav>
   )
@@ -105,6 +104,7 @@ const StyledButtonsWrap = styled.div`
   display: flex;
   gap: 15px;
 
+
 `
 
 
@@ -128,7 +128,7 @@ const StyledWallet = styled.div`
 `
 
 const StyledButton = styled.button`
-  display: inline-flex;
+  display: flex;
   justify-content: center; 
   align-items: center; 
   padding: 15px;
