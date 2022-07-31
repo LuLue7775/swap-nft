@@ -12,6 +12,8 @@ NFT SWAP是一個由各種不同背景的成員組成的團隊，包括區塊鏈
 | Query     |  Infura  | 
 | Development | Hardhat |
 
+### [Live Demo](https://swap-nft.vercel.app/)
+
 ### [合約地址etherscan連結](https://rinkeby.etherscan.io/address/0x12afe259f3bef8b917a74808dbff5a9e478b72e2)
 
 
