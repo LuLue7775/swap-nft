@@ -103,10 +103,7 @@ const StyledTitle = styled.div`
 const StyledButtonsWrap = styled.div`
   display: flex;
   gap: 15px;
-
-
 `
-
 
 const StyledWallet = styled.div`
   display: inline-flex;
